@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BlogModelStoreContainer" CdmEntityContainer="BlogEntities">
+    <EntitySetMapping Name="tbBlogComments">
+      <EntityTypeMapping TypeName="BlogModel.tbBlogComment">
+        <MappingFragment StoreEntitySet="tbBlogComments">
+          <ScalarProperty Name="BlogCommentID" ColumnName="BlogCommentID" />
+          <ScalarProperty Name="BlogCommentParentID" ColumnName="BlogCommentParentID" />
+          <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+          <ScalarProperty Name="BlogComment" ColumnName="BlogComment" />
+          <ScalarProperty Name="BlogCommentByUserID" ColumnName="BlogCommentByUserID" />
+          <ScalarProperty Name="BlogCommentDate" ColumnName="BlogCommentDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbBlogPosts">
+      <EntityTypeMapping TypeName="BlogModel.tbBlogPost">
+        <MappingFragment StoreEntitySet="tbBlogPost">
+          <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+          <ScalarProperty Name="BlogPostTitle" ColumnName="BlogPostTitle" />
+          <ScalarProperty Name="BlogPostBody" ColumnName="BlogPostBody" />
+          <ScalarProperty Name="BlogPostDate" ColumnName="BlogPostDate" />
+          <ScalarProperty Name="BlogPostByUserID" ColumnName="BlogPostByUserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbBlogUsers">
+      <EntityTypeMapping TypeName="BlogModel.tbBlogUser">
+        <MappingFragment StoreEntitySet="tbBlogUser">
+          <ScalarProperty Name="BlogIsAdmin" ColumnName="BlogIsAdmin" />
+          <ScalarProperty Name="BlogUserID" ColumnName="BlogUserID" />
+          <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+          <ScalarProperty Name="BlogUserPassword" ColumnName="BlogUserPassword" />
+          <ScalarProperty Name="BlogUserEmailID" ColumnName="BlogUserEmailID" />
+          <ScalarProperty Name="BlogUserCreatedDate" ColumnName="BlogUserCreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spAddBlogUser" FunctionName="BlogModel.Store.spAddBlogUser" />
+    <EntitySetMapping Name="tbBlogPublicUserComments">
+      <EntityTypeMapping TypeName="BlogModel.tbBlogPublicUserComment">
+        <MappingFragment StoreEntitySet="tbBlogPublicUserComments">
+          <ScalarProperty Name="BlogPUUserName" ColumnName="BlogPUUserName" />
+          <ScalarProperty Name="BlogPUCommentsParentID" ColumnName="BlogPUCommentsParentID" />
+          <ScalarProperty Name="BlogPUPostID" ColumnName="BlogPUPostID" />
+          <ScalarProperty Name="BlogPUComments" ColumnName="BlogPUComments" />
+          <ScalarProperty Name="BlogPUCommentID" ColumnName="BlogPUCommentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spGetAllUsers" FunctionName="BlogModel.Store.spGetAllUsers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BlogModel.spGetAllUsers_Result">
+          <ScalarProperty Name="BlogUserID" ColumnName="BlogUserID" />
+          <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+          <ScalarProperty Name="BlogUserEmailID" ColumnName="BlogUserEmailID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spGetBlogs" FunctionName="BlogModel.Store.spGetBlogs">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BlogModel.spGetBlogs_Result">
+          <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+          <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+          <ScalarProperty Name="BlogPostTitle" ColumnName="BlogPostTitle" />
+          <ScalarProperty Name="BlogPostBody" ColumnName="BlogPostBody" />
+          <ScalarProperty Name="BlogPostDate" ColumnName="BlogPostDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spGetBlogsByBlogPostID" FunctionName="BlogModel.Store.spGetBlogsByBlogPostID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BlogModel.spGetBlogsByBlogPostID_Result">
+          <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+          <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+          <ScalarProperty Name="BlogPostTitle" ColumnName="BlogPostTitle" />
+          <ScalarProperty Name="BlogPostBody" ColumnName="BlogPostBody" />
+          <ScalarProperty Name="BlogPostDate" ColumnName="BlogPostDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

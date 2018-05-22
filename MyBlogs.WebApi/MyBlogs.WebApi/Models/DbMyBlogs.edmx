@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BlogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbBlogComments">
+          <Key>
+            <PropertyRef Name="BlogCommentID" />
+          </Key>
+          <Property Name="BlogCommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlogCommentParentID" Type="int" Nullable="false" />
+          <Property Name="BlogPostID" Type="int" Nullable="false" />
+          <Property Name="BlogComment" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BlogCommentByUserID" Type="int" Nullable="false" />
+          <Property Name="BlogCommentDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbBlogPost">
+          <Key>
+            <PropertyRef Name="BlogPostID" />
+          </Key>
+          <Property Name="BlogPostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlogPostTitle" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="BlogPostBody" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="BlogPostDate" Type="date" />
+          <Property Name="BlogPostByUserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbBlogPublicUserComments">
+          <Key>
+            <PropertyRef Name="BlogPUCommentID" />
+          </Key>
+          <Property Name="BlogPUCommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlogPUComments" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BlogPUPostID" Type="int" />
+          <Property Name="BlogPUCommentsParentID" Type="int" Nullable="false" />
+          <Property Name="BlogPUUserName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbBlogUser">
+          <Key>
+            <PropertyRef Name="BlogUserID" />
+          </Key>
+          <Property Name="BlogUserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlogUserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BlogUserPassword" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BlogUserEmailID" Type="varchar" MaxLength="50" />
+          <Property Name="BlogUserCreatedDate" Type="date" Nullable="false" />
+          <Property Name="BlogIsAdmin" Type="bit" />
+        </EntityType>
+        <Association Name="FK__tbBlogPub__BlogP__398D8EEE">
+          <End Role="tbBlogPost" Type="Self.tbBlogPost" Multiplicity="0..1" />
+          <End Role="tbBlogPublicUserComments" Type="Self.tbBlogPublicUserComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBlogPost">
+              <PropertyRef Name="BlogPostID" />
+            </Principal>
+            <Dependent Role="tbBlogPublicUserComments">
+              <PropertyRef Name="BlogPUPostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbBlogComments_tbBlogUser">
+          <End Role="tbBlogUser" Type="Self.tbBlogUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbBlogComments" Type="Self.tbBlogComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBlogUser">
+              <PropertyRef Name="BlogUserID" />
+            </Principal>
+            <Dependent Role="tbBlogComments">
+              <PropertyRef Name="BlogCommentByUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbBlogPost">
+          <End Role="tbBlogUser" Type="Self.tbBlogUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbBlogPost" Type="Self.tbBlogPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBlogUser">
+              <PropertyRef Name="BlogUserID" />
+            </Principal>
+            <Dependent Role="tbBlogPost">
+              <PropertyRef Name="BlogPostByUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spAddBlogUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BlogUserName" Type="varchar" Mode="In" />
+          <Parameter Name="BlogUserPassword" Type="varchar" Mode="In" />
+          <Parameter Name="BlogUserEmailID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spGetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetBlogs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetBlogsByBlogPostID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BlogPostID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetValidateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BlogUserEmailID" Type="varchar" Mode="In" />
+          <Parameter Name="BlogUserPassword" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUpdateAdminUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BlogUserID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="BlogModelStoreContainer">
+          <EntitySet Name="tbBlogComments" EntityType="Self.tbBlogComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbBlogPost" EntityType="Self.tbBlogPost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbBlogPublicUserComments" EntityType="Self.tbBlogPublicUserComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbBlogUser" EntityType="Self.tbBlogUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tbBlogPub__BlogP__398D8EEE" Association="Self.FK__tbBlogPub__BlogP__398D8EEE">
+            <End Role="tbBlogPost" EntitySet="tbBlogPost" />
+            <End Role="tbBlogPublicUserComments" EntitySet="tbBlogPublicUserComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbBlogComments_tbBlogUser" Association="Self.FK_tbBlogComments_tbBlogUser">
+            <End Role="tbBlogUser" EntitySet="tbBlogUser" />
+            <End Role="tbBlogComments" EntitySet="tbBlogComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbBlogPost" Association="Self.FK_tbBlogPost">
+            <End Role="tbBlogUser" EntitySet="tbBlogUser" />
+            <End Role="tbBlogPost" EntitySet="tbBlogPost" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BlogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbBlogComment">
+          <Key>
+            <PropertyRef Name="BlogCommentID" />
+          </Key>
+          <Property Name="BlogCommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlogCommentParentID" Type="Int32" Nullable="false" />
+          <Property Name="BlogPostID" Type="Int32" Nullable="false" />
+          <Property Name="BlogComment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BlogCommentByUserID" Type="Int32" Nullable="false" />
+          <Property Name="BlogCommentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbBlogPost" Relationship="Self.FK_tbBlogComments" FromRole="tbBlogComments" ToRole="tbBlogPost" />
+          <NavigationProperty Name="tbBlogUser" Relationship="Self.FK_tbBlogComments_tbBlogUser" FromRole="tbBlogComments" ToRole="tbBlogUser" />
+        </EntityType>
+        <EntityType Name="tbBlogPost">
+          <Key>
+            <PropertyRef Name="BlogPostID" />
+          </Key>
+          <Property Name="BlogPostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlogPostTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BlogPostBody" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BlogPostDate" Type="DateTime" Precision="0" />
+          <Property Name="BlogPostByUserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbBlogComments" Relationship="Self.FK_tbBlogComments" FromRole="tbBlogPost" ToRole="tbBlogComments" />
+          <NavigationProperty Name="tbBlogUser" Relationship="Self.FK_tbBlogPost" FromRole="tbBlogPost" ToRole="tbBlogUser" />
+          <NavigationProperty Name="tbBlogPublicUserComments" Relationship="BlogModel.FK__tbBlogPub__BlogP__398D8EEE" FromRole="tbBlogPost" ToRole="tbBlogPublicUserComment" />
+        </EntityType>
+        <EntityType Name="tbBlogUser">
+          <Key>
+            <PropertyRef Name="BlogUserID" />
+          </Key>
+          <Property Name="BlogUserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlogUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BlogUserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BlogUserEmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BlogUserCreatedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="tbBlogComments" Relationship="Self.FK_tbBlogComments_tbBlogUser" FromRole="tbBlogUser" ToRole="tbBlogComments" />
+          <NavigationProperty Name="tbBlogPosts" Relationship="Self.FK_tbBlogPost" FromRole="tbBlogUser" ToRole="tbBlogPost" />
+          <Property Name="BlogIsAdmin" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_tbBlogComments">
+          <End Role="tbBlogPost" Type="Self.tbBlogPost" Multiplicity="1" />
+          <End Role="tbBlogComments" Type="Self.tbBlogComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBlogPost">
+              <PropertyRef Name="BlogPostID" />
+            </Principal>
+            <Dependent Role="tbBlogComments">
+              <PropertyRef Name="BlogPostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbBlogComments_tbBlogUser">
+          <End Role="tbBlogUser" Type="Self.tbBlogUser" Multiplicity="1" />
+          <End Role="tbBlogComments" Type="Self.tbBlogComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBlogUser">
+              <PropertyRef Name="BlogUserID" />
+            </Principal>
+            <Dependent Role="tbBlogComments">
+              <PropertyRef Name="BlogCommentByUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbBlogPost">
+          <End Role="tbBlogUser" Type="Self.tbBlogUser" Multiplicity="1" />
+          <End Role="tbBlogPost" Type="Self.tbBlogPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBlogUser">
+              <PropertyRef Name="BlogUserID" />
+            </Principal>
+            <Dependent Role="tbBlogPost">
+              <PropertyRef Name="BlogPostByUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlogEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbBlogComments" EntityType="Self.tbBlogComment" />
+          <EntitySet Name="tbBlogPosts" EntityType="Self.tbBlogPost" />
+          <EntitySet Name="tbBlogUsers" EntityType="Self.tbBlogUser" />
+          <AssociationSet Name="FK_tbBlogComments" Association="Self.FK_tbBlogComments">
+            <End Role="tbBlogPost" EntitySet="tbBlogPosts" />
+            <End Role="tbBlogComments" EntitySet="tbBlogComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbBlogComments_tbBlogUser" Association="Self.FK_tbBlogComments_tbBlogUser">
+            <End Role="tbBlogUser" EntitySet="tbBlogUsers" />
+            <End Role="tbBlogComments" EntitySet="tbBlogComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbBlogPost" Association="Self.FK_tbBlogPost">
+            <End Role="tbBlogUser" EntitySet="tbBlogUsers" />
+            <End Role="tbBlogPost" EntitySet="tbBlogPosts" />
+          </AssociationSet>
+          <FunctionImport Name="spAddBlogUser">
+            <Parameter Name="BlogUserName" Mode="In" Type="String" />
+            <Parameter Name="BlogUserPassword" Mode="In" Type="String" />
+            <Parameter Name="BlogUserEmailID" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tbBlogPublicUserComments" EntityType="BlogModel.tbBlogPublicUserComment" />
+          <AssociationSet Name="FK__tbBlogPub__BlogP__398D8EEE" Association="BlogModel.FK__tbBlogPub__BlogP__398D8EEE">
+            <End Role="tbBlogPost" EntitySet="tbBlogPosts" />
+            <End Role="tbBlogPublicUserComment" EntitySet="tbBlogPublicUserComments" />
+          </AssociationSet>
+          <FunctionImport Name="spGetAllUsers" ReturnType="Collection(BlogModel.spGetAllUsers_Result)" />
+          <FunctionImport Name="spGetBlogs" ReturnType="Collection(BlogModel.spGetBlogs_Result)" />
+          <FunctionImport Name="spGetBlogsByBlogPostID" ReturnType="Collection(BlogModel.spGetBlogsByBlogPostID_Result)">
+          <Parameter Name="BlogPostID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetValidateUser" ReturnType="Collection(BlogModel.spGetValidateUser_Result)">
+            <Parameter Name="BlogUserEmailID" Mode="In" Type="String" />
+            <Parameter Name="BlogUserPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateAdminUser">
+            <Parameter Name="BlogUserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="tbBlogPublicUserComment">
+          <Key>
+            <PropertyRef Name="BlogPUCommentID" />
+          </Key>
+          <Property Name="BlogPUCommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlogPUComments" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BlogPUPostID" Type="Int32" />
+          <Property Name="BlogPUCommentsParentID" Type="Int32" Nullable="false" />
+          <Property Name="BlogPUUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbBlogPost" Relationship="BlogModel.FK__tbBlogPub__BlogP__398D8EEE" FromRole="tbBlogPublicUserComment" ToRole="tbBlogPost" />
+        </EntityType>
+        <Association Name="FK__tbBlogPub__BlogP__398D8EEE">
+          <End Type="BlogModel.tbBlogPost" Role="tbBlogPost" Multiplicity="0..1" />
+          <End Type="BlogModel.tbBlogPublicUserComment" Role="tbBlogPublicUserComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbBlogPost">
+              <PropertyRef Name="BlogPostID" />
+            </Principal>
+            <Dependent Role="tbBlogPublicUserComment">
+              <PropertyRef Name="BlogPUPostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spGetAllUsers_Result">
+          <Property Type="Int32" Name="BlogUserID" Nullable="false" />
+          <Property Type="String" Name="BlogUserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BlogUserEmailID" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetBlogs_Result">
+          <Property Type="Int32" Name="BlogPostID" Nullable="false" />
+          <Property Type="String" Name="BlogUserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BlogPostTitle" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="BlogPostBody" Nullable="false" MaxLength="2000" />
+          <Property Type="DateTime" Name="BlogPostDate" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spGetBlogsByBlogPostID_Result">
+          <Property Type="Int32" Name="BlogPostID" Nullable="false" />
+          <Property Type="String" Name="BlogUserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BlogPostTitle" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="BlogPostBody" Nullable="false" MaxLength="2000" />
+          <Property Type="DateTime" Name="BlogPostDate" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spGetValidateUser_Result">
+          <Property Type="Int32" Name="BlogUserID" Nullable="false" />
+          <Property Type="String" Name="BlogUserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BlogUserEmailID" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="BlogIsAdmin" Nullable="true" />
+          <Property Type="String" Name="BlogUserPassword" Nullable="false" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BlogModelStoreContainer" CdmEntityContainer="BlogEntities">
+          <EntitySetMapping Name="tbBlogComments">
+            <EntityTypeMapping TypeName="BlogModel.tbBlogComment">
+              <MappingFragment StoreEntitySet="tbBlogComments">
+                <ScalarProperty Name="BlogCommentID" ColumnName="BlogCommentID" />
+                <ScalarProperty Name="BlogCommentParentID" ColumnName="BlogCommentParentID" />
+                <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+                <ScalarProperty Name="BlogComment" ColumnName="BlogComment" />
+                <ScalarProperty Name="BlogCommentByUserID" ColumnName="BlogCommentByUserID" />
+                <ScalarProperty Name="BlogCommentDate" ColumnName="BlogCommentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbBlogPosts">
+            <EntityTypeMapping TypeName="BlogModel.tbBlogPost">
+              <MappingFragment StoreEntitySet="tbBlogPost">
+                <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+                <ScalarProperty Name="BlogPostTitle" ColumnName="BlogPostTitle" />
+                <ScalarProperty Name="BlogPostBody" ColumnName="BlogPostBody" />
+                <ScalarProperty Name="BlogPostDate" ColumnName="BlogPostDate" />
+                <ScalarProperty Name="BlogPostByUserID" ColumnName="BlogPostByUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbBlogUsers">
+            <EntityTypeMapping TypeName="BlogModel.tbBlogUser">
+              <MappingFragment StoreEntitySet="tbBlogUser">
+                <ScalarProperty Name="BlogIsAdmin" ColumnName="BlogIsAdmin" />
+                <ScalarProperty Name="BlogUserID" ColumnName="BlogUserID" />
+                <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+                <ScalarProperty Name="BlogUserPassword" ColumnName="BlogUserPassword" />
+                <ScalarProperty Name="BlogUserEmailID" ColumnName="BlogUserEmailID" />
+                <ScalarProperty Name="BlogUserCreatedDate" ColumnName="BlogUserCreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spAddBlogUser" FunctionName="BlogModel.Store.spAddBlogUser" />
+          <EntitySetMapping Name="tbBlogPublicUserComments">
+            <EntityTypeMapping TypeName="BlogModel.tbBlogPublicUserComment">
+              <MappingFragment StoreEntitySet="tbBlogPublicUserComments">
+                <ScalarProperty Name="BlogPUUserName" ColumnName="BlogPUUserName" />
+                <ScalarProperty Name="BlogPUCommentsParentID" ColumnName="BlogPUCommentsParentID" />
+                <ScalarProperty Name="BlogPUPostID" ColumnName="BlogPUPostID" />
+                <ScalarProperty Name="BlogPUComments" ColumnName="BlogPUComments" />
+                <ScalarProperty Name="BlogPUCommentID" ColumnName="BlogPUCommentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetAllUsers" FunctionName="BlogModel.Store.spGetAllUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BlogModel.spGetAllUsers_Result">
+                <ScalarProperty Name="BlogUserID" ColumnName="BlogUserID" />
+                <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+                <ScalarProperty Name="BlogUserEmailID" ColumnName="BlogUserEmailID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetBlogs" FunctionName="BlogModel.Store.spGetBlogs">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BlogModel.spGetBlogs_Result">
+                <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+                <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+                <ScalarProperty Name="BlogPostTitle" ColumnName="BlogPostTitle" />
+                <ScalarProperty Name="BlogPostBody" ColumnName="BlogPostBody" />
+                <ScalarProperty Name="BlogPostDate" ColumnName="BlogPostDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetBlogsByBlogPostID" FunctionName="BlogModel.Store.spGetBlogsByBlogPostID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BlogModel.spGetBlogsByBlogPostID_Result">
+                <ScalarProperty Name="BlogPostID" ColumnName="BlogPostID" />
+                <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+                <ScalarProperty Name="BlogPostTitle" ColumnName="BlogPostTitle" />
+                <ScalarProperty Name="BlogPostBody" ColumnName="BlogPostBody" />
+                <ScalarProperty Name="BlogPostDate" ColumnName="BlogPostDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetValidateUser" FunctionName="BlogModel.Store.spGetValidateUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BlogModel.spGetValidateUser_Result">
+                <ScalarProperty Name="BlogUserID" ColumnName="BlogUserID" />
+                <ScalarProperty Name="BlogUserName" ColumnName="BlogUserName" />
+                <ScalarProperty Name="BlogUserEmailID" ColumnName="BlogUserEmailID" />
+                <ScalarProperty Name="BlogIsAdmin" ColumnName="BlogIsAdmin" />
+                <ScalarProperty Name="BlogUserPassword" ColumnName="BlogUserPassword" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spUpdateAdminUser" FunctionName="BlogModel.Store.spUpdateAdminUser" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

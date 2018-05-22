@@ -1,0 +1,28 @@
+﻿#blogusers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#blogusers td, #blogusers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#blogusers tr:nth-child(even){background-color: #f2f2f2;}
+
+#blogusers tr:hover {background-color: #ddd;}
+
+#blogusers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(48, 2, 18);
+    color: white;
+}
+.disableBtn {
+display:none;
+}
+.enableBtn {
+    display: block;
+}

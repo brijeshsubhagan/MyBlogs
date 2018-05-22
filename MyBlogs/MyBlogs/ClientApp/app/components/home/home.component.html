@@ -1,0 +1,28 @@
+<br>
+<br>
+<header class="masthead" style="background-image: url('../../images/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading" style="text-align:center">
+                    <h1>My Blog</h1>
+                    <span class="subheading">Life is not a problem to be solved, but a reality to be experienced.... My Blog</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <ng-container *ngFor="let b of blogs; index as i">
+                <blog-card [blog]="b"></blog-card>
+            </ng-container>
+            <!-- Pager-->
+            <div class="clearfix" *ngIf="showAdmin" >
+                <a class="btn btn-primary float-right" ngh routerLink="/create" >Add new Posts &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>

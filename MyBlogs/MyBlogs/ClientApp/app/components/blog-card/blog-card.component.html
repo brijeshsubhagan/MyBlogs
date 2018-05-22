@@ -1,0 +1,20 @@
+﻿<div class="post-preview">
+    <a [routerLink]="['/Blog/', blog.id]">
+        <h2 class="post-title">
+            {{blog.title}}
+        </h2>
+    </a>
+    <p class="post-meta">
+        Posted by
+        <a href="#">{{blog.username}}</a>
+        on {{blog.date | date:'fullDate'}}
+    </p>
+    <p class="post-meta" *ngIf="showAdmin" style="text-align:right">
+        <button type="button" (click)="deleteBlog()" class="btn btn-primary">
+            <i class="glyphicon glyphicon-remove">Delete</i>
+        </button>
+    
+    </p>
+
+    <hr>
+    </div>

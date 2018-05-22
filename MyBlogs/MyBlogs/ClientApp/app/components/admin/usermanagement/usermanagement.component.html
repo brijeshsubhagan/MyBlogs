@@ -1,0 +1,36 @@
+﻿<br>
+<br>
+<br>
+<br>
+<br>
+<body ng-app="">
+    <div>
+        <table id="blogusers">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Permission</th>
+                <th>Delete</th>
+            </tr>
+            <ng-container *ngFor="let u of userManger; index as i">
+                <tr>
+                    <td id="userid" hidden>{{u.id}}</td>
+                    <td>{{u.name}}</td>
+                    <td>{{u.email}}</td>
+                    <td><!--<input type="checkbox" (click)="checked()" checked="getCheckState(u.isadmin)" />-->
+                        <button type="button" class="btn btn-primary"  style="width:81%;" (click)="grantAdmin(u.id)">
+                            {{getButtonText(u.isadmin)}}
+                        </button>
+                    </td>
+                    <td>
+                        
+                        <button type="button" class="btn btn-danger" [ngClass]="getButtonState(u.isadmin)" (click)="deleteUser(u.id)">
+                            <i class="glyphicon glyphicon-remove" >
+                            </i>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+</body>

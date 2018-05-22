@@ -1,0 +1,16 @@
+<br>
+<br>
+<div>
+    <h2 class="post-title">
+        {{blog.title}}
+    </h2>
+    <br>
+    <h4>
+        {{blog.body}}
+    </h4>
+    <br>
+    <h6>Posted by: {{blog.username}}</h6>
+</div>
+<br>
+<br>
+<blog-comment [blogId]="blog.id"></blog-comment>

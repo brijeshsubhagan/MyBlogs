@@ -1,0 +1,28 @@
+<div class="col-md-8 order-md-1">
+<h4 class="mb-3">Comments Section</h4>
+<form class="needs-validation" novalidate>
+    <div class="row">
+    <div class="col-md-6 mb-3">
+        <label for="firstName">Your name</label>
+        <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+        <div class="invalid-feedback">
+        Valid first name is required.
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12 mb-3">
+        <label for="lastName">Comments</label>
+        <textarea class="form-control" rows="5" id="comment" placeholder="" value="" required></textarea>
+    </div>
+    </div>
+    <div class="row" style="padding-top: 2%">
+        <div class="col-md-3 mb-3">
+                <a class="btn btn-primary float-right" routerLink="/NewPost">Submit Comments</a>
+        </div>
+    </div>
+    <ng-container *ngFor="let c of blogcomments; index as i">
+        <comment-box [blogComment]="c"></comment-box>
+    </ng-container>
+    </form>
+</div>

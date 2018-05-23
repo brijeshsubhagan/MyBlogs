@@ -4,4 +4,4 @@ Step 1: One in WebApi Client - file -WebApiconfig.cs.. We need to provide the ou
 
 Step 2: Second in Blog Application - file - app.global.ts - here we need to provide the WebAPI Url
 
-Step 3: We need to edit the connection string in the Web.config file of WebApi application
+Step 3: We need to edit the connection string in the Web.config file of WebApi application 

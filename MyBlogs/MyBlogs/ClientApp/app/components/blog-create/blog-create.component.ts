@@ -11,18 +11,20 @@ import { AppGlobals } from '../../app.global';
 export class BlogCreateComponent implements OnInit {
     blogCreateForm: FormGroup;
     errorMessage:any
+     authToken: string;
     constructor(private _fb: FormBuilder, private _avRoute: ActivatedRoute,
         private _blogUserService: BlogCreateService, private _router: Router, private _globals: AppGlobals) {
         this.blogCreateForm = this._fb.group({
             BlogPostTitle: ['', [Validators.required]],
             BlogPostBody: ['', [Validators.required]],
-            BlogPostByUserID: 2,
+            BlogPostByUserID: parseInt(sessionStorage.getItem("UserID")),
             BlogPostDate: new Date()
         })
+        this.authToken = '';//sessionStorage.getItem("authToken");
 
     }
 
-    ngOnInit() {
+    ngOnInit() { this.authToken = sessionStorage.getItem("authToken");
     }
     save() {
       /*  var string1 = JSON.stringify(this.blogCreateForm.value);

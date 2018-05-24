@@ -1,4 +1,4 @@
-﻿import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
@@ -18,9 +18,14 @@ export class AdminService {
         //this.blogList = null;
     }
     getAllUsers(apiUrl) {
-        return this._http.get(apiUrl)
-            .map((response: Response) => response.json())
-            .catch(this.errorHandler);
+        try {
+            return this._http.get(apiUrl)
+                .map((response: Response) => response.json())
+                .catch(this.errorHandler);
+        }
+        catch (Error) {
+            alert(Error.message);
+        }
 
     }
 

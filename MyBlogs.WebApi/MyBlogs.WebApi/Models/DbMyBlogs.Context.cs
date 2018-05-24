@@ -68,18 +68,18 @@ namespace MyBlogs.WebApi.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetBlogsByBlogPostID_Result>("spGetBlogsByBlogPostID", blogPostIDParameter);
         }
     
-        public virtual ObjectResult<spGetValidateUser_Result> spGetValidateUser(string blogUserEmailID, string blogUserPassword)
-        {
-            var blogUserEmailIDParameter = blogUserEmailID != null ?
-                new ObjectParameter("BlogUserEmailID", blogUserEmailID) :
-                new ObjectParameter("BlogUserEmailID", typeof(string));
+        //public virtual ObjectResult<spGetValidateUser_Result> spGetValidateUser(string blogUserEmailID, string blogUserPassword)
+        //{
+        //    var blogUserEmailIDParameter = blogUserEmailID != null ?
+        //        new ObjectParameter("BlogUserEmailID", blogUserEmailID) :
+        //        new ObjectParameter("BlogUserEmailID", typeof(string));
     
-            var blogUserPasswordParameter = blogUserPassword != null ?
-                new ObjectParameter("BlogUserPassword", blogUserPassword) :
-                new ObjectParameter("BlogUserPassword", typeof(string));
+        //    var blogUserPasswordParameter = blogUserPassword != null ?
+        //        new ObjectParameter("BlogUserPassword", blogUserPassword) :
+        //        new ObjectParameter("BlogUserPassword", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetValidateUser_Result>("spGetValidateUser", blogUserEmailIDParameter, blogUserPasswordParameter);
-        }
+        //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetValidateUser_Result>("spGetValidateUser", blogUserEmailIDParameter, blogUserPasswordParameter);
+        //}
     
         public virtual int spUpdateAdminUser(Nullable<int> blogUserID)
         {

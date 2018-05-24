@@ -18,15 +18,10 @@ export class AdminService {
         //this.blogList = null;
     }
     getAllUsers(apiUrl) {
-        try {
-            return this._http.get(apiUrl)
+             return this._http.get(apiUrl)
                 .map((response: Response) => response.json())
                 .catch(this.errorHandler);
-        }
-        catch (Error) {
-            alert(Error.message);
-        }
-
+       
     }
 
     errorHandler(error: Response) {
